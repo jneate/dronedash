@@ -1,8 +1,9 @@
 /**
  * messages module
  */
-define(['ojs/ojcore', 'knockout', 'ojs/ojbutton', 'factories/WebsocketFactory', 'ojs/ojinputtext', 'ojs/ojformlayout'
-], function (oj, ko, io, WebsocketFactory) {
+define(['ojs/ojcore', 'knockout', 'ojs/ojbutton', 'factories/WebsocketFactory',
+        'viewModels/animation', 'ojs/ojinputtext', 'ojs/ojformlayout'
+], function (oj, ko, io, WebsocketFactory, Animation) {
     /**
      * The view model for the messages view template
      */
@@ -44,6 +45,8 @@ define(['ojs/ojcore', 'knockout', 'ojs/ojbutton', 'factories/WebsocketFactory', 
         };
 
         self.emitMessage = function() {
+
+            Animation.onClick();
 
             var command = {
                 "yaw": self.yawAmount(),

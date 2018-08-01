@@ -1,0 +1,8 @@
+Go Code:
+  dronecore -> droneReport - REPORT SIMPLE
+  droneObj -> creates mock drone
+
+Integrate with JET via Websocket
+
+JET:
+  Image of drone - Web GL - Three JS
