@@ -3,7 +3,8 @@
   "version": "1.0.0",
   "description": "An Oracle JavaScript Extension Toolkit(JET) web app",
   "dependencies": {
-    "@oracle/oraclejet": "~4.2.0"
+    "@oracle/oraclejet": "~4.2.0",
+    "three-full": "^8.0.0"
   },
   "devDependencies": {
     "grunt": "^1.0.1",

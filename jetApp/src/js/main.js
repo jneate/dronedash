@@ -31,6 +31,7 @@ requirejs.config(
     'customElements': 'libs/webcomponents/custom-elements.min',
     'proj4': 'libs/proj4js/dist/proj4-src',
     'css': 'libs/require-css/css',
+    'three': 'libs/three-full/builds/Three.amd.min'
   }
   //endinjector
   ,
@@ -51,7 +52,7 @@ requirejs.config(
  * by the modules themselves), we are listing them explicitly to get the references to the 'oj' and 'ko'
  * objects in the callback
  */
-require(['ojs/ojcore', 'knockout', 'appController', 'ojs/ojmodule', 'ojs/ojknockout', 'ojs/ojbutton', 'ojs/ojtoolbar', 'ojs/ojmenu'],
+require(['ojs/ojcore', 'knockout', 'appController', 'three', 'ojs/ojmodule', 'ojs/ojknockout', 'ojs/ojbutton', 'ojs/ojtoolbar', 'ojs/ojmenu'],
   function (oj, ko, app) { // this callback gets executed when all required modules are loaded
     
     $(function() {

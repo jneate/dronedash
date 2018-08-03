@@ -46,7 +46,7 @@ define(['ojs/ojcore', 'knockout', 'ojs/ojbutton', 'factories/WebsocketFactory',
 
         self.emitMessage = function() {
 
-            Animation.onClick();
+            Animation.onClick(self.pitchAmount(), self.yawAmount(), self.rollAmount());
 
             var command = {
                 "yaw": self.yawAmount(),
