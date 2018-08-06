@@ -13,8 +13,6 @@ define(['ojs/ojcore', 'knockout', 'https://static.sketchfab.com/api/sketchfab-vi
         var self = this;
 
         var initialY = Math.PI / 2;
-        var degree90 = +(Math.PI / 2);
-        var degree90Left = -(Math.PI / 2);
         var degree = (Math.PI / 180);
 
         var inputPitch;
@@ -27,18 +25,30 @@ define(['ojs/ojcore', 'knockout', 'https://static.sketchfab.com/api/sketchfab-vi
         var pointLight = new Three.PointLight( 0xffffff, 0.8 );
         var loader = new Three.GLTFLoader();
         var drone;
+
+        var startX;
+        var startY;
+        var startZ;
         
-        // var material = new Three.MeshStandardMaterial({metalness: 0, roughness: 0.5});
         var material = new Three.MeshNormalMaterial();
 
-        var buttonClicked = false;
+        var buttonXClicked = false;
+        var buttonYClicked = false;
+        var buttonZClicked = false;
 
-        self.onClick = function(pitch, yaw, roll) {
+        self.onMessage = function(pitch, yaw, roll) {
 
             inputPitch = pitch;
             inputYaw = yaw;
             inputRoll = roll;
-            buttonClicked = true;
+
+            startX = drone.scene.rotation.x;
+            startY = drone.scene.rotation.y;
+            startZ = drone.scene.rotation.z;
+
+            buttonXClicked = true;
+            buttonYClicked = true;
+            buttonZClicked = true;
 
         };
 
@@ -47,14 +57,14 @@ define(['ojs/ojcore', 'knockout', 'https://static.sketchfab.com/api/sketchfab-vi
         self.handleAttached = function(info) {
             
             renderer.setSize(800, 600);
-            document.getElementById('droneContainer').appendChild( renderer.domElement );
+            document.getElementById('droneContainer').appendChild(renderer.domElement);
 
             scene.add(new Three.AmbientLight(0xffffff,1));
-            camera.add( pointLight );
+            camera.add(pointLight);
 
             loader.load(
                 'model/drone.gltf',
-                function ( gltf ) {
+                function (gltf) {
 
                     gltf.scene.traverse(function (node) {
 
@@ -67,7 +77,7 @@ define(['ojs/ojcore', 'knockout', 'https://static.sketchfab.com/api/sketchfab-vi
 
                     drone = gltf;
 
-                    scene.add( drone.scene );
+                    scene.add(drone.scene);
 
                     // gltf.animations; // Array<THREE.AnimationClip>
                     // gltf.scene; // THREE.Scene
@@ -77,16 +87,15 @@ define(['ojs/ojcore', 'knockout', 'https://static.sketchfab.com/api/sketchfab-vi
 
                 },
                 // called while loading is progressing
-                function ( xhr ) {
+                function (xhr) {
 
-                    console.log( ( xhr.loaded / xhr.total * 100 ) + '% loaded' );
+                    console.log((xhr.loaded / xhr.total * 100 ) + '% loaded');
 
                 },
                 // called when loading has errors
-                function ( error ) {
+                function (error) {
 
-                    console.log( 'An error happened' );
-                    console.log( error );
+                    console.log(error);
 
                 }
             );
@@ -94,28 +103,60 @@ define(['ojs/ojcore', 'knockout', 'https://static.sketchfab.com/api/sketchfab-vi
             camera.position.z = 7;
 
             function animate() {
-                requestAnimationFrame( animate );
+
+                requestAnimationFrame(animate);
+
                 if (drone) {
-                    checkTurn();
-                    // drone.scene.rotation.x += 0.01;
-                    // drone.scene.rotation.y += 0.01;
-                    // drone.scene.rotation.z += 0.01;
+                    checkX();
+                    checkY();
+                    checkZ();
                 }
-                renderer.render( scene, camera );
+
+                renderer.render(scene, camera);
             }
 
             animate();
 
         };
 
-        function checkTurn() {
-            if (buttonClicked) {
-                drone.scene.rotation.x += (degree * inputPitch);
-                drone.scene.rotation.y += (degree * inputYaw);
-                drone.scene.rotation.z += (degree * inputRoll);
-                buttonClicked = false;
+        function checkX() {
+            if (buttonXClicked) {
+                
+                if (drone.scene.rotation.x < (startX + (degree * inputPitch))) {
+                    drone.scene.rotation.x += 0.02;
+                } else {
+                    drone.scene.rotation.x = (startX + (degree * inputPitch));
+                    buttonXClicked = false;
+                }
+
             }
-        };
+        }
+
+        function checkY() {
+            if (buttonYClicked) {
+                
+                if (drone.scene.rotation.y < (startY + (degree * inputYaw))) {
+                    drone.scene.rotation.y += 0.02;
+                } else {
+                    drone.scene.rotation.y = (startY + (degree * inputYaw));
+                    buttonYClicked = false;
+                }
+
+            }
+        }
+
+        function checkZ() {
+            if (buttonZClicked) {
+                
+                if (drone.scene.rotation.z < (startZ + (degree * inputRoll))) {
+                    drone.scene.rotation.z += 0.02;
+                } else {
+                    drone.scene.rotation.z = (startZ + (degree * inputRoll));
+                    buttonZClicked = false;
+                }
+
+            }
+        }
 
     }
     

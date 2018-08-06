@@ -20,33 +20,37 @@ define(['ojs/ojcore', 'knockout', 'ojs/ojbutton', 'factories/WebsocketFactory',
         var i = 0;
         var websocket = WebsocketFactory.getWebsocket();
 
-        self.addMessage = function (event) {
+        self.addMessage = function (message) {
 
             var array = self.messageArray();
             
-            if (event.data) {
-                var message = JSON.parse(event.data);
-                i = i + 1;
-                array.push({
-                    "id": i,
-                    "yaw": message.movement.yaw,
-                    "roll": message.movement.roll,
-                    "pitch": message.movement.pitch,
-                    "gaz": message.movement.gaz
-                });
-            }
+            i = i + 1;
+            array.push({
+                "id": i,
+                "yaw": message.movement.yaw,
+                "roll": message.movement.roll,
+                "pitch": message.movement.pitch,
+                "gaz": message.movement.gaz
+            });
 
             self.messageArray(array);
 
         };
 
         websocket.onmessage = function (event) {
-            self.addMessage(event);
+
+            if (event.data) {
+
+                var message = JSON.parse(event.data);
+
+                self.addMessage(message);
+                Animation.onMessage(message.movement.pitch, message.movement.yaw, message.movement.roll);
+
+            }
+
         };
 
         self.emitMessage = function() {
-
-            Animation.onClick(self.pitchAmount(), self.yawAmount(), self.rollAmount());
 
             var command = {
                 "yaw": self.yawAmount(),
