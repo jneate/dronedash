@@ -7,7 +7,7 @@ function (oj) {
             if (uri) {
                 this.wsUri = uri;
             } else {
-                this.wsUri = "ws://localhost:8080";
+                this.wsUri = "ws://localhost:8080/ws";
             }
         },
         connectSocket: function() {

@@ -39,7 +39,11 @@ define(['ojs/ojcore', 'knockout', 'ojs/ojbutton', 'factories/WebsocketFactory',
 
         websocket.onmessage = function (event) {
 
+            oj.Logger.error(event);
+
             if (event.data) {
+
+                console.log(event.data);
 
                 var message = JSON.parse(event.data);
 
@@ -53,11 +57,17 @@ define(['ojs/ojcore', 'knockout', 'ojs/ojbutton', 'factories/WebsocketFactory',
         self.emitMessage = function() {
 
             var command = {
-                "yaw": self.yawAmount(),
-                "roll": self.rollAmount(),
-                "pitch": self.pitchAmount(),
-                "gaz": self.gazAmount()
+                "movement": {
+                    "yaw": self.yawAmount(),
+                    "roll": self.rollAmount(),
+                    "pitch": self.pitchAmount(),
+                    "gaz": self.gazAmount()
+                }
             };
+
+            //Comment out for LIVE API
+            self.addMessage(command);
+            Animation.onMessage(command.movement.pitch, command.movement.yaw, command.movement.roll);
 
             websocket.send(JSON.stringify(command));
 
