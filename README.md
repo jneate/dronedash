@@ -15,6 +15,10 @@ Accepts JSON Messages in the following format:
 }
 ```
 
+### Preview
+
+<img src="Dashboard_Preview.gif"></img>
+
 ## How To Run
 ```
 cd jetApp
