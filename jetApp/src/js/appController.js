@@ -13,8 +13,10 @@ define(['ojs/ojcore', 'knockout', 'ojs/ojknockout', 'ojs/ojmodule'],
       self.appName = ko.observable("Drone Watcher");
       self.messagesPage = ko.observable("messages");
       self.animationPage = ko.observable("animation");
+      self.onTakeOff = ko.observable();
+      self.onLand = ko.observable();
 
-     };
+     }
 
      return new ControllerViewModel();
   }

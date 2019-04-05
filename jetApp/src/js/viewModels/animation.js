@@ -36,9 +36,9 @@ define(['ojs/ojcore', 'knockout', 'https://static.sketchfab.com/api/sketchfab-vi
         var buttonYClicked = false;
         var buttonZClicked = false;
 
-        self.onMessage = function(pitch, yaw, roll) {
+        self.onMessage = function(pitch, yaw, roll, gaz) {
 
-            inputPitch = pitch;
+            inputGaz = gaz;
             inputYaw = yaw;
             inputRoll = roll;
 
@@ -122,10 +122,10 @@ define(['ojs/ojcore', 'knockout', 'https://static.sketchfab.com/api/sketchfab-vi
         function checkX() {
             if (buttonXClicked) {
                 
-                if (drone.scene.rotation.x < (startX + (degree * inputPitch))) {
+                if (drone.scene.rotation.x < (startX + (degree * inputGaz))) {
                     drone.scene.rotation.x += 0.02;
                 } else {
-                    drone.scene.rotation.x = (startX + (degree * inputPitch));
+                    drone.scene.rotation.x = (startX + (degree * inputGaz));
                     buttonXClicked = false;
                 }
 

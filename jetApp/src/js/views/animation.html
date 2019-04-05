@@ -1,8 +1,20 @@
-<h2>Drone</h2>
+<div class="oj-flex oj-sm-flex-items-initial">
+  <div class="oj-flex-item">
+    <h2>Drone</h2>
+  </div>
+  <div class="oj-flex-item">
+    <div data-bind="if: $parent.onTakeOff">
+      <img id="takeoffImg" src="css/images/takeoff.png" style="height: 10%;"/>
+    </div>
+    <div data-bind="if: $parent.onLand">
+      <img id="landImg" src="css/images/land.png" style="height: 10%;"/>
+    </div>
+  </div>
+</div>
+<br>
 <div id="droneContainer"
-     height="500"
-     width="640"
-     max-height="100%"
-     max-width="60%">
-
+    height="500"
+    width="640"
+    max-height="100%"
+    max-width="60%">
 </div>

@@ -11,6 +11,8 @@ define(['ojs/ojcore', 'knockout', 'ojs/ojbutton', 'factories/WebsocketFactory',
     function MessagesViewModel() {
 
         var self = this;
+        var rootViewModel = ko.dataFor(document.getElementById('globalBody'));
+
         self.messageArray = ko.observableArray();
         self.yawAmount = ko.observable("0");
         self.rollAmount = ko.observable("0");
@@ -47,8 +49,25 @@ define(['ojs/ojcore', 'knockout', 'ojs/ojbutton', 'factories/WebsocketFactory',
 
                 var message = JSON.parse(event.data);
 
-                self.addMessage(message);
-                Animation.onMessage(message.movement.pitch, message.movement.yaw, message.movement.roll);
+                rootViewModel.onTakeOff(false);
+                rootViewModel.onLand(false);
+
+                if (message.Action) {
+                    if (message.Action === 'takeoff') {
+                        rootViewModel.onTakeOff(true);
+                        $("#takeoffImg").fadeOut(2500, function () {
+                            rootViewModel.onTakeOff(false);
+                        });
+                    } else if (message.Action === 'land') {
+                        rootViewModel.onLand(true);
+                        $("#landImg").fadeOut(2500, function () {
+                            rootViewModel.onLand(false);
+                        });
+                    }
+                } else {
+                    self.addMessage(message);
+                    Animation.onMessage(message.movement.pitch, message.movement.yaw, message.movement.roll, message.movement.gaz);
+                }
 
             }
 
@@ -66,8 +85,8 @@ define(['ojs/ojcore', 'knockout', 'ojs/ojbutton', 'factories/WebsocketFactory',
             };
 
             //Comment out for LIVE API
-            self.addMessage(command);
-            Animation.onMessage(command.movement.pitch, command.movement.yaw, command.movement.roll);
+            // self.addMessage(command);
+            // Animation.onMessage(command.movement.pitch, command.movement.yaw, command.movement.roll);
 
             websocket.send(JSON.stringify(command));
 
