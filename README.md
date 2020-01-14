@@ -19,7 +19,7 @@ Accepts JSON Messages in the following format:
 
 <img src="Dashboard_Preview.gif"></img>
 
-## How To Run
+## How To Run The Thing
 ```
 cd jetApp
 
